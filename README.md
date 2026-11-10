@@ -110,6 +110,10 @@ TalentHub strictly fulfills the formal Architectural Decision Records (ADRs) def
 | **Audit Log & DPDP Privacy** | Immutable `application_status_log`, consent toggle, and in-place GDPR erasure | `server/src/repositories/auditRepository.ts` |
 | **Realtime WebSockets** | WebSocket event broadcast engine updates client UI across roles without refresh | `server/src/realtime/index.ts` |
 
+> 📄 **Official Lab 4 Technical Specifications**:
+> - [**`docs/LAB4_DETAILED_DESIGN_SPECIFICATION.md`**](file:///c:/Users/manas/Downloads/TALENT-HUB/TALENT-HUB/docs/LAB4_DETAILED_DESIGN_SPECIFICATION.md): Complete markdown specification including 1NF &rarr; 2NF &rarr; 3NF &rarr; BCNF decomposition proofs, Consolidated Detailed Design Record (DDR), algorithm pseudocode, and security controls.
+> - [**`TalentHub_Database_Design_Final.pdf`**](file:///c:/Users/manas/Downloads/TALENT-HUB/TALENT-HUB/TalentHub_Database_Design_Final.pdf): The official 29-page laboratory design manual with ER diagrams, UML class diagrams, and relational schema details.
+
 ---
 
 ## 📊 Database Architecture (PostgreSQL 3NF / BCNF)

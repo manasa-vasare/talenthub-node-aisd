@@ -41,7 +41,6 @@ logfile
 .DS_Store
 Thumbs.db
 
-# Large documentation & binary attachments
+# Unnecessary binary Word documents
 *.docx
-TalentHub_Database_Design_Final.pdf
 
