@@ -161,11 +161,13 @@ export interface EligibilityJobInput {
   min_cgpa: number;
   max_backlogs: number;
   allowed_branches: Branch[];
+  is_open?: boolean;
 }
 
 export interface EligibilityResult {
   eligible: boolean;
   reason: string;
+  reasons: string[];
 }
 
 // Auth Types

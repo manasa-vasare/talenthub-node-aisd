@@ -112,6 +112,37 @@ console.log('--- RUNNING ELIGIBILITY ALGORITHM TESTS (Lab 4 Part B) ---');
   assert(result.eligible === false && result.reason.includes('CGPA 5.00 below minimum 7.00'), 'Rule precedence: R1 triggers before R2, R3, R4', result);
 }
 
+// Test 11: Alternative B (Lab 4 Part E) - Returns ALL failure reasons
+{
+  const result = checkEligibility(
+    { cgpa: 5.0, active_backlogs: 3, branch: 'CIVIL', has_accepted_offer: true },
+    { min_cgpa: 7.0, max_backlogs: 0, allowed_branches: ['CSE'] }
+  );
+  assert(
+    result.eligible === false &&
+    result.reasons.length === 4 &&
+    result.reasons.some(r => r.includes('CGPA')) &&
+    result.reasons.some(r => r.includes('backlogs')) &&
+    result.reasons.some(r => r.includes('accepted')) &&
+    result.reasons.some(r => r.includes('Branch')),
+    'Alternative B: returns complete list of all 4 failure reasons',
+    result
+  );
+}
+
+// Test 12: Job closed edge case (per Lab 4 pseudocode)
+{
+  const result = checkEligibility(
+    { cgpa: 9.0, active_backlogs: 0, branch: 'CSE', has_accepted_offer: false },
+    { min_cgpa: 7.0, max_backlogs: 0, allowed_branches: ['CSE'], is_open: false }
+  );
+  assert(
+    result.eligible === false && result.reasons.includes('Job is closed'),
+    'Job closed check: returns "Job is closed"',
+    result
+  );
+}
+
 console.log(`\nResults: ${passedCount} passed, ${failedCount} failed.`);
 if (failedCount > 0) {
   process.exit(1);
