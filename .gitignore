@@ -41,3 +41,7 @@ logfile
 .DS_Store
 Thumbs.db
 
+# Large documentation & binary attachments
+*.docx
+TalentHub_Database_Design_Final.pdf
+
