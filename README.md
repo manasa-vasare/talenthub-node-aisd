@@ -222,17 +222,51 @@ npm test --prefix server
 
 ## 🚀 Step-by-Step Setup & How-to-Run Guide
 
-You can run TalentHub either using standard `npm` / `node` or using `pnpm`.
+> [!IMPORTANT]
+> **Zero-Config Guarantee — Runs Without Any `.env` File or External Database!**
+> - You do **NOT** need to create or configure any `.env` file. All environment variables have resilient, built-in defaults.
+> - You do **NOT** need to install, configure, or run an external PostgreSQL server or Docker container. TalentHub uses an **embedded, zero-config PostgreSQL engine (PGlite)** that starts automatically out of the box on Windows, macOS, and Linux!
+> - Simply follow the 4 commands below and the entire application will be live in under 2 minutes.
 
 ### Prerequisites
 - **Node.js**: Version 20.x, 22.x, or 24.x ([Download Node.js](https://nodejs.org/))
 - **Git**
 
-> **Zero-Config Database Notice**: TalentHub includes an **embedded PostgreSQL engine (PGlite)**! You do **NOT** need to install, configure, or run an external PostgreSQL server. It works out-of-the-box on Windows, macOS, and Linux. (If you prefer an external PostgreSQL database, simply provide `DATABASE_URL` in `.env`).
+---
+
+### Quick 3-Step Start (Copy & Paste)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/manasa-vasare/talenthub-node-aisd.git
+cd talenthub-node-aisd
+
+# 2. Install dependencies (standard npm)
+npm install --prefix server
+npm install --prefix client
+
+# 3. Seed database with sample students, drives & offer letters
+npm run db:seed --prefix server
+```
+
+Then start the servers:
+
+- **In Terminal 1 (Backend Server on Port 5000):**
+  ```bash
+  npm run dev --prefix server
+  ```
+- **In Terminal 2 (Frontend UI on Port 5173):**
+  ```bash
+  npm run dev --prefix client
+  ```
+
+Open **[http://localhost:5173](http://localhost:5173)** in your browser!
 
 ---
 
-### Step 1: Clone the Repository
+### Detailed Step-by-Step Instructions
+
+#### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/manasa-vasare/talenthub-node-aisd.git
 cd talenthub-node-aisd
@@ -240,16 +274,15 @@ cd talenthub-node-aisd
 
 ---
 
-### Step 2: Install Dependencies
+#### Step 2: Install Dependencies
 
-#### Using standard npm:
+##### Option A: Using standard npm (Default / Recommended)
 ```bash
-# Install root, server, and client dependencies
 npm install --prefix server
 npm install --prefix client
 ```
 
-#### Or using pnpm:
+##### Option B: Using pnpm (If you have pnpm installed)
 ```bash
 pnpm install
 ```
