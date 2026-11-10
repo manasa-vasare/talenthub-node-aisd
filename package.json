@@ -1,0 +1,19 @@
+{
+  "name": "talent-hub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TalentHub - End-to-End University Placement Management System",
+  "scripts": {
+    "dev": "pnpm --parallel --filter talent-hub-server --filter talent-hub-client dev",
+    "dev:server": "pnpm --filter talent-hub-server dev",
+    "dev:client": "pnpm --filter talent-hub-client dev",
+    "build": "pnpm --filter talent-hub-client build && pnpm --filter talent-hub-server build",
+    "start": "pnpm --filter talent-hub-server start",
+    "db:migrate": "pnpm --filter talent-hub-server db:migrate",
+    "db:seed": "pnpm --filter talent-hub-server db:seed",
+    "test": "pnpm --filter talent-hub-server test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
