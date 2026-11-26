@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Branch, VALID_BRANCHES } from '../types';
-import { GraduationCap, Briefcase, Shield, ArrowRight, Lock, User, CheckCircle2, Mail, Building, FileText } from 'lucide-react';
+import { GraduationCap, Briefcase, Shield, ArrowRight, Lock, User, CheckCircle2, Mail, Building, FileText, ShieldAlert } from 'lucide-react';
+import { SqlInjectionDemoModal } from '../components/SqlInjectionDemoModal';
 
 export const LoginPage: React.FC = () => {
   const { login, registerStudent, registerCompany } = useAuth();
   const [mode, setMode] = useState<'signin' | 'register_student' | 'register_company'>('signin');
+  const [showSqlDemo, setShowSqlDemo] = useState(false);
   
   // Login Form
   const [username, setUsername] = useState('rahul');
@@ -180,6 +182,31 @@ export const LoginPage: React.FC = () => {
             10-table 3NF/BCNF relational database, deterministic fail-fast <code className="text-slate-800 font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">checkEligibility</code> algorithm,
             atomic offer acceptance, role-isolated RBAC, DPDP consent tracking, and real-time state synchronization.
           </p>
+
+          {/* Lab 7 Live Security Review Banner */}
+          <div className="p-3.5 bg-amber-50 border border-amber-300 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-amber-500 text-slate-950 font-bold shadow-xs">
+                <ShieldAlert className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
+                  <span>Laboratory 7: Security Review Live Demo</span>
+                  <span className="px-1.5 py-0.2 bg-amber-200 text-amber-900 rounded text-[10px] font-bold">SQLi</span>
+                </div>
+                <div className="text-[11px] text-slate-600">
+                  Simulate SQL injection attack (&apos; OR &apos;1&apos;=&apos;1) and test parameterized query defense
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowSqlDemo(true)}
+              className="w-full sm:w-auto px-3.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-xs transition cursor-pointer text-center whitespace-nowrap"
+            >
+              Open SQLi Demo
+            </button>
+          </div>
 
           {/* Quick Demo Credentials */}
           <div className="space-y-3 pt-2">
@@ -548,6 +575,12 @@ export const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Lab 7 SQL Injection Live Demonstration Modal */}
+      <SqlInjectionDemoModal
+        isOpen={showSqlDemo}
+        onClose={() => setShowSqlDemo(false)}
+      />
     </div>
   );
 };

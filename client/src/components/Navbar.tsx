@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { subscribeRealtime } from '../api/client';
-import { GraduationCap, LogOut, Radio, ChevronDown, Check, UserCircle } from 'lucide-react';
+import { GraduationCap, LogOut, Radio, ChevronDown, Check, UserCircle, ShieldAlert } from 'lucide-react';
+import { SqlInjectionDemoModal } from './SqlInjectionDemoModal';
 
 export const Navbar: React.FC = () => {
   const { user, logout, login } = useAuth();
   const [isLive, setIsLive] = useState(true);
   const [showSwitchMenu, setShowSwitchMenu] = useState(false);
+  const [showSqlDemo, setShowSqlDemo] = useState(false);
   const [lastEvent, setLastEvent] = useState<string | null>(null);
 
   useEffect(() => {
@@ -92,6 +94,17 @@ export const Navbar: React.FC = () => {
               <span className="hidden sm:inline font-medium">Live Sync</span>
             </div>
 
+            {/* Lab 7: SQL Injection Demo Trigger Button */}
+            <button
+              onClick={() => setShowSqlDemo(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 transition shadow-xs cursor-pointer border border-amber-600/30"
+              title="Open Laboratory 7 SQL Injection Attack & Defense interactive demonstration"
+            >
+              <ShieldAlert className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">SQL Injection Demo</span>
+              <span className="md:hidden">Lab 7</span>
+            </button>
+
             {/* Quick Persona Switcher Dropdown */}
             <div className="relative">
               <button
@@ -166,6 +179,12 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Lab 7 SQL Injection Live Demonstration Modal */}
+      <SqlInjectionDemoModal
+        isOpen={showSqlDemo}
+        onClose={() => setShowSqlDemo(false)}
+      />
     </header>
   );
 };
