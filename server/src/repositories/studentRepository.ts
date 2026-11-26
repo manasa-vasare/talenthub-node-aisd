@@ -23,6 +23,17 @@ export class StudentRepository {
     return res.rows;
   }
 
+  /**
+   * Search/filter students by branch using parameterized queries (Lab 7 V5 SQL Injection Defense).
+   */
+  async findByBranch(branch: string): Promise<Student[]> {
+    const res = await query<Student>(
+      `SELECT * FROM students WHERE branch = $1 ORDER BY id ASC`,
+      [branch]
+    );
+    return res.rows;
+  }
+
   async create(data: {
     usn: string;
     full_name: string;

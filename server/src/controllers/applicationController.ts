@@ -65,6 +65,22 @@ export async function getApplication(req: Request, res: Response): Promise<void>
 export async function getApplicationLogs(req: Request, res: Response): Promise<void> {
   try {
     const appId = parseInt(req.params.id as string, 10);
+    const app = await applicationRepository.findById(appId);
+    if (!app) {
+      res.status(404).json({ error: 'Application not found.' });
+      return;
+    }
+
+    // Role-based object-level authorization (IDOR Prevention - Lab 7 V1(b))
+    if (req.user?.role === 'student' && app.student_id !== req.user.studentId) {
+      res.status(403).json({ error: 'Unauthorized: Cannot access audit logs of another student.' });
+      return;
+    }
+    if (req.user?.role === 'company' && app.company_id !== req.user.companyId) {
+      res.status(403).json({ error: 'Unauthorized: Cannot access audit logs for another company drive.' });
+      return;
+    }
+
     const logs = await auditRepository.getLogsByApplicationId(appId);
     res.json(logs);
   } catch (err: any) {
