@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Shield, ShieldAlert, ShieldCheck, Terminal, Play, X, Database, ArrowRight, Code, AlertTriangle, CheckCircle } from 'lucide-react';
 
 interface Student {
@@ -60,8 +61,8 @@ export const SqlInjectionDemoModal: React.FC<SqlInjectionDemoModalProps> = ({ is
     runDemo(mode, preset);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] overflow-y-auto bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-xl shadow-2xl border border-slate-200 max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         
         {/* Modal Header */}
@@ -352,6 +353,7 @@ await query(sql, [branch]);`}
         </div>
 
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
