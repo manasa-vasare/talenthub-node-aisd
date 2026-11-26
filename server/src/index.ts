@@ -6,7 +6,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 import { config } from './config/index.js';
-import { initDb } from './db/connection.js';
+import { initDb, query } from './db/connection.js';
 import { runMigrations } from './db/migrate.js';
 import { realtime } from './realtime/index.js';
 
@@ -69,6 +69,55 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     version: '1.0.0',
   });
+});
+
+// ============================================================================
+// Lab 7: Live SQL Injection Attack & Defense Endpoints (Case 2 Demonstration)
+// ============================================================================
+
+// 1. Live Attack Endpoint: Insecure string concatenation (Vulnerability V5)
+app.get('/api/demo/sql-injection/insecure', async (req, res) => {
+  const branch = (req.query.branch as string) || '';
+  const rawSql = "SELECT id, full_name, usn, branch, cgpa FROM students WHERE branch = '" + branch + "'";
+  try {
+    const result = await query(rawSql);
+    res.json({
+      demonstration: 'INSECURE_STRING_CONCATENATION_VULNERABILITY',
+      input: branch,
+      executedSql: rawSql,
+      count: result.rows.length,
+      attackSuccessful: result.rows.length > 2,
+      message: result.rows.length > 2
+        ? 'SQL Injection successful! Bypassed branch filter and dumped all student records.'
+        : 'Query executed normally.',
+      students: result.rows,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message, executedSql: rawSql });
+  }
+});
+
+// 2. Live Defense Endpoint: Parameterized query (Prepared statement defense)
+app.get('/api/demo/sql-injection/secure', async (req, res) => {
+  const branch = (req.query.branch as string) || '';
+  const parameterizedSql = 'SELECT id, full_name, usn, branch, cgpa FROM students WHERE branch = $1';
+  try {
+    const result = await query(parameterizedSql, [branch]);
+    res.json({
+      demonstration: 'SECURE_PARAMETERIZED_QUERY_DEFENSE',
+      input: branch,
+      executedSql: parameterizedSql,
+      parameterValue: branch,
+      count: result.rows.length,
+      attackBlocked: result.rows.length === 0,
+      message: result.rows.length === 0
+        ? 'SQL Injection blocked! Input treated as a literal string value; 0 unintended records returned.'
+        : 'Query executed with matching records.',
+      students: result.rows,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Mount Routes
